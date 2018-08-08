@@ -80,7 +80,7 @@ Installing dependencies
 ```
 luarocks install busted
 luarocks install kong
-luarocks install lua-cjson
+luarocks install lua-lunajson
 luarocks install luasec OPENSSL_DIR=/usr/local/opt/openssl (you may need to run `brew install openssl` and `brew link --force openssl` on MacOS)
 ```
 

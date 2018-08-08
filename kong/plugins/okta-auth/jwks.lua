@@ -1,7 +1,7 @@
 -- This module is based on
 -- https://github.com/venkatmarepalli/lua-resty-openidc/blob/7fb07424a83e4fcd853df66e84fac848e7f568d9/lib/resty/openidc.lua
 
-local cjson   = require "cjson"
+local lunajson   = require "lunajson"
 local b64 = require "mime".b64
 local unb64 = require "mime".unb64
 
@@ -120,7 +120,7 @@ end
 
 function _M.to_pem(key, kid)
   local key = cache(key, kid)
-  local jwks = cjson.decode(key)
+  local jwks = lunajson.decode(key)
 
   local algorithms = {
     RSA = {

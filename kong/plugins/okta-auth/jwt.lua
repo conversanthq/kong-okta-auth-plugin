@@ -1,4 +1,4 @@
-local cjson  = require 'cjson'
+local lunajson  = require 'lunajson'
 local basexx = require 'basexx'
 local crypto = require 'crypto'
 local jwks = require "kong.plugins.okta-auth.jwks"
@@ -98,8 +98,8 @@ function M.encode(data, key, alg, header)
 	header['alg'] = alg
 
 	local segments = {
-		b64_encode(cjson.encode(header)),
-		b64_encode(cjson.encode(data))
+		b64_encode(lunajson.encode(header)),
+		b64_encode(lunajson.encode(data))
 	}
 
 	local signing_input = table.concat(segments, ".")
@@ -128,8 +128,8 @@ function M.decode(data, key, verify)
 
 	local ok, header, body, sig = pcall(function ()
 
-		return	cjson.decode(b64_decode(headerb64)),
-			cjson.decode(b64_decode(bodyb64)),
+		return	lunajson.decode(b64_decode(headerb64)),
+			lunajson.decode(b64_decode(bodyb64)),
 			b64_decode(sigb64)
 	end)
 

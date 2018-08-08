@@ -1,5 +1,5 @@
 local helpers = require "spec.helpers"
-local cjson = require "cjson"
+local lunajson = require "lunajson"
 
 describe("Okta Auth", function()
   local client
@@ -49,7 +49,7 @@ describe("Okta Auth", function()
         path = "/plugins/" ..plugin.id,
       })
       local body = assert.res_status(200, response)
-      local json = cjson.decode(body)
+      local json = lunajson.decode(body)
       assert.is_equal(api.id, json.api_id)
     end)
 

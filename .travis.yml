@@ -11,7 +11,7 @@ before_install:
   - source env/bin/activate
   - luarocks install kong
   - luarocks install busted
-  - luarocks install lua-cjson
+  - luarocks install lua-lunajson
   - luarocks install basexx
   - luarocks install luacrypto
 
