@@ -1,5 +1,5 @@
 local cjson  = require 'cjson'
-local base64 = require 'base64'
+local basexx = require 'basexx'
 local crypto = require 'crypto'
 local jwks = require "kong.plugins.okta-auth.jwks"
 
@@ -40,7 +40,7 @@ local alg_verify = {
 }
 
 local function b64_encode(input)
-	local result = base64.encode(input)
+	local result = basexx.to_base64(input)
 
 	result = result:gsub('+','-'):gsub('/','_'):gsub('=','')
 
@@ -57,7 +57,7 @@ local function b64_decode(input)
 
 	input = input:gsub('-','+'):gsub('_','/')
 
-	return base64.decode(input)
+	return basexx.from_base64(input)
 end
 
 local function tokenize(str, div, len)

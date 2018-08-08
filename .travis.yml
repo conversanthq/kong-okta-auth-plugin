@@ -12,7 +12,7 @@ before_install:
   - luarocks install kong
   - luarocks install busted
   - luarocks install lua-cjson
-  - luarocks install lbase64
+  - luarocks install basexx
   - luarocks install luacrypto
 
 install:
