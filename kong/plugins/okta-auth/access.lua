@@ -16,17 +16,6 @@ local function is_token_valid(token_data)
   return token_data['active']
 end
 
-local function extract_data(token_data)
-  local extracted_data = {}
-  local required_data = {"username", "group", "scope"}
-
-  for _, field in pairs(required_data) do
-    if token_data[field] then extracted_data[field] = token_data[field] end
-  end
-
-  return extracted_data
-end
-
 function _M.execute(request, conf)
   local token = extract_token(request)
   if not token then return nil end
@@ -42,7 +31,7 @@ function _M.execute(request, conf)
   if not response then return false end
 
   local token_data = json.decode(response)
-  return is_token_valid(token_data), extract_data(token_data)
+  return is_token_valid(token_data)
 end
 
 return _M

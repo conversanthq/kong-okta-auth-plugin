@@ -7,7 +7,7 @@ describe("Access", function()
       request = {
         get_headers = function(param) return {} end
       }
-      valid, token_data = access.execute(request, {})
+      valid = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -17,7 +17,7 @@ describe("Access", function()
           return { ["authorization"] = "token" }
         end
       }
-      valid, token_data = access.execute(request, {})
+      valid = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -27,7 +27,7 @@ describe("Access", function()
           return { ["authorization"] = "Bearer part1.part2" }
         end
       }
-      valid, token_data = access.execute(request, {})
+      valid = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -37,7 +37,7 @@ describe("Access", function()
           return { ["authorization"] = "Bearer pa*rt1.part2.part3" }
         end
       }
-      valid, token_data = access.execute(request, {})
+      valid = access.execute(request, {})
       assert.is.not_true(valid)
     end)
   end)
@@ -82,18 +82,11 @@ describe("Access", function()
         "exp": 1507397726
       }]]
 
-      expected_token_data = {
-        ["scope"] = "read write",
-        ["username"] = "user",
-        ["group"] = {"Everyone"}
-      }
-
       stub(okta_api, "introspect").returns(introspect_response)
 
-      valid, token_data = access.execute(request, {})
+      valid = access.execute(request, {})
 
       assert.is_true(valid)
-      assert.are.same(expected_token_data, token_data)
 
       okta_api.introspect:revert()
     end)

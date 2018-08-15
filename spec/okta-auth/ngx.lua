@@ -5,8 +5,6 @@ return {
     set_header = function() end,
     get_headers = function()
         return {
-          ["OKTA-group"] = "groups",
-          ["OKTA-test"] = "test",
           ["test"] = "test",
         }
       end,
