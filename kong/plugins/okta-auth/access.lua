@@ -18,7 +18,7 @@ end
 
 local function extract_data(token_data, conf)
   local extracted_data = {}
-  for claim_key,claim_value in pairs(token_data) do
+  for claim_key,_ in pairs(token_data) do
     for _,claim_pattern in pairs(conf.claims_to_include) do
       if string.match(claim_key, "^"..claim_pattern.."$") then
         extracted_data[claim_key] = token_data[claim_key]
