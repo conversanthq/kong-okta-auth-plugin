@@ -24,7 +24,11 @@ return {
       type = "boolean",
       default = true,
       required = false,
-    }
+    },
+    claims_to_include = {
+      type = "array",
+      default = {".*"},
+      required = "false"
   },
   self_check = function(schema, conf, dao, is_updating)
     if conf.check_auth_server then

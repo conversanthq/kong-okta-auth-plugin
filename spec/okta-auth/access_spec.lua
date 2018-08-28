@@ -7,7 +7,7 @@ describe("Access", function()
       request = {
         get_headers = function(param) return {} end
       }
-      valid = access.execute(request, {})
+      valid, token_data = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -17,7 +17,7 @@ describe("Access", function()
           return { ["authorization"] = "token" }
         end
       }
-      valid = access.execute(request, {})
+      valid, token_data = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -27,7 +27,7 @@ describe("Access", function()
           return { ["authorization"] = "Bearer part1.part2" }
         end
       }
-      valid = access.execute(request, {})
+      valid, token_data = access.execute(request, {})
       assert.is.not_true(valid)
     end)
 
@@ -37,7 +37,7 @@ describe("Access", function()
           return { ["authorization"] = "Bearer pa*rt1.part2.part3" }
         end
       }
-      valid = access.execute(request, {})
+      valid, token_data = access.execute(request, {})
       assert.is.not_true(valid)
     end)
   end)
@@ -66,7 +66,11 @@ describe("Access", function()
       introspect_response = '{ "active": false }'
       stub(okta_api, "introspect").returns(introspect_response)
 
-      valid = access.execute(request, {})
+      conf = {
+        claims_to_include = {"scope", "username", "group"}
+      }
+
+      valid = access.execute(request, conf)
 
       assert.is_not_true(valid)
 
@@ -82,11 +86,22 @@ describe("Access", function()
         "exp": 1507397726
       }]]
 
+      expected_token_data = {
+        ["scope"] = "read write",
+        ["username"] = "user",
+        ["group"] = {"Everyone"}
+      }
+
+      conf = {
+        claims_to_include = {"scope", "username", "group"}
+      }
+
       stub(okta_api, "introspect").returns(introspect_response)
 
-      valid = access.execute(request, {})
+      valid, token_data = access.execute(request, conf)
 
       assert.is_true(valid)
+      assert.are.same(expected_token_data, token_data)
 
       okta_api.introspect:revert()
     end)
