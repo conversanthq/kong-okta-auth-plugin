@@ -29,6 +29,7 @@ return {
       type = "array",
       default = {".*"},
       required = "false"
+    }
   },
   self_check = function(schema, conf, dao, is_updating)
     if conf.check_auth_server then
